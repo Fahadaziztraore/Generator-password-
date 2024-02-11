@@ -1,0 +1,48 @@
+
+from tkinter import *
+import random
+
+def exe():
+    user = ent.get()
+    length = len(user)
+    
+    if length > 0:
+        pr = "".join(random.sample(user, length))
+        lab.config(text="\n" + pr + "\n")
+    else:
+        lab.config(text="\nEntrez un mot de passe\n", font=("Italic", 15))
+    
+
+    # ajouter un élément
+    with open("generateur.txt", "r") as generateur:
+          contenu = generateur.read()
+          if pr not in contenu:
+                with open("generateur.txt", "a") as generateur:
+                      
+                      generateur.write("\n"+pr)
+                
+    text_box.delete("1.0", "end")   
+    # n'ajoute rien qui existe déjà '
+    if text_box.get("1.0", "end-1c") == "":
+        with open("generateur.txt", "r") as generateur:
+            text_box.insert("end",generateur.read())
+
+m = Tk()
+m["bg"] = "#00008B"
+
+wel = Label(m, text="\ngenerator password\n", font=("bold", 15), bg="#00008B", fg="white")
+wel.pack(fill=X)
+
+ent = Entry(m, width=15, font=("Arial", 19))
+ent.pack()
+
+lab = Label(m, text="\ntext\n", font=("Italic", 15), bg="#00008B", fg="white")
+lab.pack(fill=X)
+
+but = Button(m, text="click me", font=("Italic", 15), bg="white", bd=6, command=exe)
+but.pack()
+
+text_box = Text(m, width=20, height=10, font=("Arial", 12))
+text_box.pack()
+
+mainloop()
